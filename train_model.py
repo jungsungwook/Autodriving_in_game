@@ -47,11 +47,6 @@ model = googlenet(WIDTH, HEIGHT, 3, LR, output=9, model_name=MODEL_NAME)
 
 if LOAD_MODEL:
     model.load(PREV_MODEL)
-    print('We have loaded a previous model!!!!')
-    
-
-# iterates through the training files
-
 
 for e in range(EPOCHS):
     #data_order = [i for i in range(1,FILE_I_END+1)]
@@ -60,12 +55,9 @@ for e in range(EPOCHS):
     for count,i in enumerate(data_order):
         
         try:
-            file_name = 'J:/phase10-random-padded/training_data-{}.npy'.format(i)
-            # full file info
+            file_name = 'C:/phase10-random-padded/training_data-{}.npy'.format(i)
             train_data = np.load(file_name)
             print('training_data-{}.npy'.format(i),len(train_data))
-
-##            # [   [    [FRAMES], CHOICE   ]    ] 
 ##            train_data = []
 ##            current_frames = deque(maxlen=HM_FRAMES)
 ##            
@@ -80,7 +72,6 @@ for e in range(EPOCHS):
 
 
             # #
-            # always validating unique data: 
             #shuffle(train_data)
             train = train_data[:-50]
             test = train_data[-50:]
@@ -91,27 +82,12 @@ for e in range(EPOCHS):
             test_x = np.array([i[0] for i in test]).reshape(-1,WIDTH,HEIGHT,3)
             test_y = [i[1] for i in test]
 
-            model.fit({'input': X}, {'targets': Y}, n_epoch=1, validation_set=({'input': test_x}, {'targets': test_y}), 
+            model.fit({'ix': X}, {'ty': Y}, n_epoch=1, validation_set=({'ix': test_x}, {'ty': test_y}), 
                 snapshot_step=2500, show_metric=True, run_id=MODEL_NAME)
-
-
             if count%10 == 0:
-                print('SAVING MODEL!')
+
                 model.save(MODEL_NAME)
                     
         except Exception as e:
             print(str(e))
             
-    
-
-
-
-
-
-
-
-
-#
-
-#tensorboard --logdir=foo:J:/phase10-code/log
-

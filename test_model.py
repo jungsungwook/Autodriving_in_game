@@ -117,8 +117,6 @@ model = googlenet(WIDTH, HEIGHT, 3, LR, output=9)
 MODEL_NAME = ''
 model.load(MODEL_NAME)
 
-print('We have loaded a previous model!!!!')
-
 def main():
     last_time = time.time()
     for i in list(range(4))[::-1]:
@@ -159,46 +157,39 @@ def main():
 
             if mode_choice == 0:
                 straight()
-                choice_picked = 'straight'
+                choice_picked = '직진'
                 
             elif mode_choice == 1:
                 reverse()
-                choice_picked = 'reverse'
+                choice_picked = '후진'
                 
             elif mode_choice == 2:
                 left()
-                choice_picked = 'left'
+                choice_picked = '왼쪽'
             elif mode_choice == 3:
                 right()
-                choice_picked = 'right'
+                choice_picked = '오른쪽'
             elif mode_choice == 4:
                 forward_left()
-                choice_picked = 'forward+left'
+                choice_picked = '앞+왼쪽'
             elif mode_choice == 5:
                 forward_right()
-                choice_picked = 'forward+right'
+                choice_picked = '앞+오른쪽'
             elif mode_choice == 6:
                 reverse_left()
-                choice_picked = 'reverse+left'
+                choice_picked = '뒤+왼쪽'
             elif mode_choice == 7:
                 reverse_right()
-                choice_picked = 'reverse+right'
+                choice_picked = '뒤+오른쪽'
             elif mode_choice == 8:
                 no_keys()
-                choice_picked = 'nokeys'
+                choice_picked = '없음'
 
             motion_log.append(delta_count)
             motion_avg = round(mean(motion_log),3)
-            print('loop took {} seconds. Motion: {}. Choice: {}'.format( round(time.time()-last_time, 3) , motion_avg, choice_picked))
+            print('반복 {} sec. 키: {}. 선택: {}'.format( round(time.time()-last_time, 3) , motion_avg, choice_picked))
             
             if motion_avg < motion_req and len(motion_log) >= log_len:
-                print('WERE PROBABLY STUCK FFS, initiating some evasive maneuvers.')
-
-                # 0 = reverse straight, turn left out
-                # 1 = reverse straight, turn right out
-                # 2 = reverse left, turn right out
-                # 3 = reverse right, turn left out
-
                 quick_choice = random.randrange(0,4)
                 
                 if quick_choice == 0:
@@ -230,7 +221,7 @@ def main():
     
         keys = key_check()
 
-        # p pauses game and can get annoying.
+        # p > 정지
         if 'T' in keys:
             if paused:
                 paused = False
